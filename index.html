@@ -561,4 +561,41 @@
             avatar.className = `flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-lg ${isBot ? 'bg-albania-charcoal border border-white/10 text-red-500' : 'bg-albania-red text-white'}`;
             avatar.innerHTML = isBot 
                 ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>'
-                : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a
+                : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+
+            const bubble = document.createElement('div');
+            bubble.className = `px-5 py-3.5 rounded-2xl text-[15px] leading-relaxed shadow-md transition-all ${
+                isBot 
+                ? 'bg-albania-bubbleBot text-gray-100 rounded-bl-none border border-white/5' 
+                : 'bg-albania-red text-white rounded-br-none shadow-red-900/20'
+            }`;
+            
+            const content = document.createElement('div');
+            content.innerHTML = htmlText;
+
+            bubble.appendChild(content);
+            inner.appendChild(avatar);
+            inner.appendChild(bubble);
+            wrapper.appendChild(inner);
+
+            messagesList.appendChild(wrapper);
+            scrollToBottom();
+        }
+
+        function showTyping(show) {
+            isTyping = show;
+            if (show) {
+                typingIndicator.classList.remove('hidden');
+                scrollToBottom();
+            } else {
+                typingIndicator.classList.add('hidden');
+            }
+        }
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
