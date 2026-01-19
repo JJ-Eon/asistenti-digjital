@@ -189,22 +189,22 @@
             kryefjala: {
                 keywords: ["kryefjala", "kryefjal"],
                 def: "<strong>Kryefjala</strong> është gjymtyra kryesore e fjalisë që shënon frymorin a sendin i cili kryen veprimin ose që ka tiparin e shprehur nga kallëzuesi.",
-                shprehet: "<strong>Kryefjala shprehet:</strong><br>a) me <strong>emër</strong> – <em>Shiu vazhdonte të binte.</em><br>b) me <strong>përemër</strong> – <em>Lirinë e gjeta në mes jush.</em><br>c) me <strong>grup emëror</strong> – <em>Dielli pranveror ndriçonte tokën.</em><br>d) me <strong>pjesë të nënrenditur ftilluese</strong>.",
-                llojet: null, // Kryefjala typically doesn't have classification subtypes in this context
+                shprehet: "<strong>Kryefjala shprehet:</strong><br>a) me <strong>emër</strong> – <em>Shiu vazhdonte të binte lehtë e gëzueshëm.</em><br>b) me <strong>përemër</strong> – <em>Lirinë nuk ua solla unë, po e gjeta në mes jush.</em><br>c) me <strong>grup emëror</strong> – <em>Midis reve, herë pas here ndriçonte tokën dielli pranveror.</em><br>d) me <strong>pjesë të nënrenditur ftilluese</strong> – <em>Mendohet se ky qytet është një vendbanim i lashtë.</em>",
+                llojet: null, 
                 question: "A dëshiron të dish se me çfarë shprehet?"
             },
             kallezuesi: {
                 keywords: ["kallëzuesi", "kallezuesi", "kallëzues", "kallezues"],
                 def: "<strong>Kallëzuesi</strong> është gjymtyra kryesore e fjalisë që tregon një veprim a një gjendje të kryefjalës.",
-                llojet: "<strong>Klasifikimi i kallëzuesve:</strong><br>a) <strong>Kallëzues emëror</strong> (folja ‘jam’ + gjymtyrë emërore).<br>b) <strong>Kallëzues foljor</strong> (i thjeshtë ose i përbërë).",
-                shprehet: "<strong>Kallëzuesi shprehet:</strong><br>• Me folje në kohë të thjeshta/përbëra.<br>• Me folje aspektore (filloj, zë) ose modale (mund, duhet) + forma të pashtjelluara.",
+                llojet: "<strong>Klasifikimi i kallëzuesve sipas mënyrës së shprehjes:</strong><br>a) <strong>Kallëzues emëror</strong> – <em>Ai është njeri i besës.</em><br>b) <strong>Kallëzues i thjeshtë foljor</strong> – <em>Drita e mëngjesit po mbulonte tokën e përgjumur.</em><br>c) <strong>Kallëzues i përbërë foljor</strong> – <em>Ajo filloi të shkruante librin e parë.</em>",
+                shprehet: "<strong>Mënyra e formimit:</strong><br>• <strong>Kallëzues emëror:</strong> folja ‘jam/është- këpuja’ + gjymtyra emërore ‘njeri i besës’ (GE).<br>• <strong>Kallëzues i thjeshtë foljor:</strong> folje në kohët e thjeshta ose kohë të përbëra.<br>• <strong>Kallëzues i përbërë foljor:</strong> folje aspektore (filloj, zë, nis...) ose folje modale (mund, duhet, do) + folje në lidhore, forma të pashtjelluara ose emra prejfoljor asnjanës.",
                 question: "A dëshiron të dish llojet apo me çfarë shprehet?"
             },
             percaktori: {
                 keywords: ["përcaktori", "percaktori", "përcaktor", "percaktor"],
                 def: "<strong>Përcaktori</strong> është gjymtyrë e dytë e fjalisë, pjesë e grupit emëror.",
                 llojet: "<strong>Llojet e përcaktorëve:</strong><br>1. Përcaktori me përshtatje.<br>2. Përcaktori me drejtim.<br>3. Përcaktori me bashkim.",
-                shprehet: "<strong>Përcaktori shprehet:</strong><br>• Me mbiemër, përemër, numëror (përshtatje).<br>• Me emër në raste të ndryshme (drejtim).<br>• Me forma të pashtjelluara ose ndajfolje (bashkim).",
+                shprehet: "<strong>1. Përcaktori me përshtatje shprehet:</strong><br>a) me mbiemër – <em>Uji po rridhte me një zhurmë ritmike.</em><br>b) me përemër – <em>Motra e saj fliste aq bukur!</em><br>c) me numëror – <em>Ata janë tre shokë të mirë.</em><br><br><strong>2. Përcaktori me drejtim shprehet:</strong><br>a) Me emër në rasën emërore me parafjalë – <em>Vajza nga Tirana fitoi vendin e parë në konkurs.</em><br>b) Me emër në rasën gjinore – <em>Vargu i njerëzve nuk kishte të mbaruar.</em><br>c) Me emër në rasën kallëzore – <em>Në mbrëmje shijova një gotë verë me miqtë e mi.</em><br>d) Me emër në rasën rrjedhore – <em>Ajo dukej e brishtë si një gotë kristali.</em><br><br><strong>3. Përcaktori me bashkim shprehet:</strong><br>a) me formë të pashtjelluar pjesore – <em>Dy aktorë mbuluar me pelerina filluan të dialogonin.</em><br>b) me formë të pashtjelluar paskajore – <em>Dëshira për të studiuar ishte e ethshme.</em><br>c) me ndajfolje – <em>Klasa përballë është e motrës sime.</em>",
                 question: "A dëshiron të dish llojet apo me çfarë shprehet?"
             },
             kundrinori: {
@@ -561,41 +561,4 @@
             avatar.className = `flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-lg ${isBot ? 'bg-albania-charcoal border border-white/10 text-red-500' : 'bg-albania-red text-white'}`;
             avatar.innerHTML = isBot 
                 ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>'
-                : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
-
-            const bubble = document.createElement('div');
-            bubble.className = `px-5 py-3.5 rounded-2xl text-[15px] leading-relaxed shadow-md transition-all ${
-                isBot 
-                ? 'bg-albania-bubbleBot text-gray-100 rounded-bl-none border border-white/5' 
-                : 'bg-albania-red text-white rounded-br-none shadow-red-900/20'
-            }`;
-            
-            const content = document.createElement('div');
-            content.innerHTML = htmlText;
-
-            bubble.appendChild(content);
-            inner.appendChild(avatar);
-            inner.appendChild(bubble);
-            wrapper.appendChild(inner);
-
-            messagesList.appendChild(wrapper);
-            scrollToBottom();
-        }
-
-        function showTyping(show) {
-            isTyping = show;
-            if (show) {
-                typingIndicator.classList.remove('hidden');
-                scrollToBottom();
-            } else {
-                typingIndicator.classList.add('hidden');
-            }
-        }
-
-        function scrollToBottom() {
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-    </script>
-<script type="module" src="/index.tsx"></script>
-</body>
-</html>
+                : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a
