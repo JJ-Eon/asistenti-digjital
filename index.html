@@ -237,7 +237,8 @@
         // 5: Refusal Path (User said NO to initial question) -> "Dëshiron të ndash..."
         // 6: Listening Mode (User said YES to "Dëshiron të ndash...")
         let step = 0; 
-        let activeTopic = null; 
+        let activeTopic = null;
+        let subContext = null; 
         let isTyping = false;
 
         // --- DOM Elements ---
@@ -396,41 +397,11 @@
                 if (lowerText.includes('mjaft') || lowerText.includes('stop') || lowerText.includes('jo') || lowerText.includes('faleminderit')) {
                     step = 2;
                     activeTopic = null;
+                    subContext = null;
                     response = "Kënaqësi të bisedonim për gjuhën! Atëherë më thuaj një gjë të bukur që të ka ndodhur sot?";
                 } 
                 else {
-                    // 1. Check if we are answering a follow-up question regarding a topic
-                    if (activeTopic) {
-                        const data = SYNTAX_DATA[activeTopic];
-                        let answered = false;
-
-                        if (lowerText.includes('lloj') || lowerText.includes('klasifikim')) {
-                            if (data.llojet) {
-                                response = data.llojet;
-                            } else {
-                                response = "Për këtë gjymtyrë nuk kemi klasifikim llojesh, por mund të të tregoj si shprehet.";
-                            }
-                            answered = true;
-                        } 
-                        else if (lowerText.includes('shpreh') || lowerText.includes('formo') || lowerText.includes('behet')) {
-                            if (data.shprehet) {
-                                response = data.shprehet;
-                            } else {
-                                response = "Më fal, nuk kam informacion specifik për shprehjen e saj.";
-                            }
-                            answered = true;
-                        }
-
-                        if (answered) {
-                            activeTopic = null; // Clear context after answering
-                            response += "<br><br>Deshiron të pyesësh për ndonjë gjymtyrë tjetër?";
-                            showTyping(false);
-                            appendMessage('bot', response);
-                            return; 
-                        }
-                    }
-
-                    // 2. Check for New Topic
+                    // 1. Check for New Topic (High Priority)
                     let newTopicKey = null;
                     for (const key in SYNTAX_DATA) {
                         if (SYNTAX_DATA[key].keywords.some(k => lowerText.includes(k))) {
@@ -441,11 +412,83 @@
 
                     if (newTopicKey) {
                         activeTopic = newTopicKey;
+                        subContext = null; // Reset context for new topic
                         const data = SYNTAX_DATA[newTopicKey];
                         response = `${data.def}<br><br><span class="text-red-300 italic">${data.question}</span>`;
-                    } else if (activeTopic) {
-                        // We are in a topic but user said something unrelated to llojet/shprehet
-                        response = "Më fal, nuk të kuptova qartë. A dëshiron të dish <strong>llojet</strong>, <strong>me çfarë shprehet</strong>, apo të flasim për një gjymtyrë tjetër?";
+                    } 
+                    else if (activeTopic) {
+                        // Handle interactions within the active topic
+                        const data = SYNTAX_DATA[activeTopic];
+                        const isAffirmation = lowerText === 'po' || lowerText.includes('po ') || lowerText.includes(' po') || lowerText.includes('sigurisht') || lowerText.includes('dua');
+                        const isNegation = lowerText === 'jo' || lowerText.includes('jo ') || lowerText.includes(' jo') || lowerText.includes('nuk') || lowerText.includes('tjeter');
+
+                        if (isNegation) {
+                            // Exit current topic
+                            activeTopic = null;
+                            subContext = null;
+                            response = "Në rregull. Mund të vazhdojmë me elemente të tjera të sintaksës (Kallëzuesi, Përcaktori, Kundrinori). Për cilën dëshiron të dish më shumë?";
+                        }
+                        else if (lowerText.includes('lloj') || lowerText.includes('klasifikim')) {
+                            // User asks for Types
+                            response = data.llojet ? data.llojet : "Për këtë gjymtyrë nuk kemi klasifikim llojesh.";
+                            
+                            // Check for follow-up potential
+                            if (data.shprehet && subContext !== 'shprehet') {
+                                response += "<br><br><span class='text-red-300 italic'>A dëshiron të dish gjithashtu se me çfarë shprehet?</span>";
+                                subContext = 'llojet'; // Mark that we just discussed types
+                                // Active topic remains
+                            } else {
+                                activeTopic = null;
+                                subContext = null;
+                                response += "<br><br>Dëshiron të pyesësh për ndonjë gjymtyrë tjetër?";
+                            }
+                        } 
+                        else if (lowerText.includes('shpreh') || lowerText.includes('formo') || lowerText.includes('behet')) {
+                            // User asks for Expression
+                            response = data.shprehet ? data.shprehet : "Më fal, nuk kam informacion specifik për shprehjen e saj.";
+
+                            // Check for follow-up potential
+                            if (data.llojet && subContext !== 'llojet') {
+                                response += "<br><br><span class='text-red-300 italic'>A dëshiron të dish gjithashtu llojet?</span>";
+                                subContext = 'shprehet'; // Mark that we just discussed expression
+                            } else {
+                                activeTopic = null;
+                                subContext = null;
+                                response += "<br><br>Dëshiron të pyesësh për ndonjë gjymtyrë tjetër?";
+                            }
+                        }
+                        else if (isAffirmation) {
+                            // User says "Po" to the previous prompt
+                            if (subContext === 'llojet' && data.shprehet) {
+                                response = data.shprehet;
+                                activeTopic = null; // Finished both
+                                subContext = null;
+                                response += "<br><br>Dëshiron të pyesësh për ndonjë gjymtyrë tjetër?";
+                            }
+                            else if (subContext === 'shprehet' && data.llojet) {
+                                response = data.llojet;
+                                activeTopic = null;
+                                subContext = null;
+                                response += "<br><br>Dëshiron të pyesësh për ndonjë gjymtyrë tjetër?";
+                            }
+                            else {
+                                // Fallback general affirmation (show everything or whatever is left)
+                                if (data.llojet && data.shprehet) {
+                                    response = data.llojet + "<br><br>" + data.shprehet;
+                                } else if (data.llojet) {
+                                    response = data.llojet;
+                                } else {
+                                    response = data.shprehet;
+                                }
+                                activeTopic = null;
+                                subContext = null;
+                                response += "<br><br>Dëshiron të pyesësh për ndonjë gjymtyrë tjetër?";
+                            }
+                        }
+                        else {
+                            // Input didn't match keywords inside active topic
+                            response = "Më fal, nuk të kuptova qartë. A dëshiron të dish <strong>llojet</strong>, <strong>me çfarë shprehet</strong>, apo të flasim për një gjymtyrë tjetër?";
+                        }
                     } else {
                         // No active topic and no new topic found
                         response = `Nuk të kuptova qartë. Mund të pyesësh për:
@@ -493,6 +536,7 @@
                     messagesList.style.opacity = '1';
                     step = 0;
                     activeTopic = null;
+                    subContext = null;
                     userInput.disabled = false;
                     userInput.placeholder = "Shkruaj përgjigjen tënde...";
                     userInput.value = '';
