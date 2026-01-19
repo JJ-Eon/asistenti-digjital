@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistenti Digjital Shqiptar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        albania: {
+                            red: '#E41E20', // National Flag Red
+                            dark: '#0a0a0a', // Deep Black
+                            charcoal: '#1a1a1a',
+                            bubbleBot: '#262626',
+                        }
+                    },
+                    animation: {
+                        'slide-up': 'slideUp 0.4s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #050505; 
+            color: #f5f5f5;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #E41E20; }
+        
+        /* Typing Animation */
+        .typing-dot {
+            animation: bounce 1.4s infinite ease-in-out both;
+            background-color: #E41E20;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Subtle Pattern */
+        .bg-pattern {
+            background-image: radial-gradient(#E41E20 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.05;
+        }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="h-screen flex flex-col overflow-hidden bg-albania-dark relative">
+
+    <!-- Decorative Background -->
+    <div class="absolute inset-0 bg-pattern pointer-events-none"></div>
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-red-900/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-red-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Header -->
+    <header class="relative z-20 flex items-center justify-between px-6 py-4 bg-albania-charcoal/80 backdrop-blur-xl border-b border-white/5 shadow-md">
+        <div class="flex items-center gap-4">
+            <div class="bg-albania-red p-2.5 rounded-lg shadow-[0_0_15px_rgba(228,30,32,0.4)] flex items-center justify-center">
+                <!-- Eagle-like Icon representation -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M16 8a4 4 0 0 0-3.32-1.78l-1.38-2.74a1 1 0 0 0-1.6 0L8.32 6.22A4 4 0 0 0 5 10c0 2.21 1.79 4 4 4v6l3-3 3 3v-6a4 4 0 0 0 4-4Z"/></svg>
+            </div>
+            <div>
+                <h1 class="font-bold text-white tracking-wide text-lg">Asistenti Shqiptar</h1>
+                <p class="text-[11px] text-red-400 font-medium uppercase tracking-widest">Gjuha & Tradita</p>
+            </div>
+        </div>
+        <div class="flex items-center">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse mr-2"></span>
+            <span class="text-xs text-gray-400">Online</span>
+        </div>
+    </header>
+
+    <!-- Chat Area -->
+    <main id="chat-container" class="relative z-10 flex-1 overflow-y-auto px-4 sm:px-6 py-6 scroll-smooth">
+        <div id="messages-list" class="max-w-3xl mx-auto flex flex-col justify-end min-h-0 pb-4">
+            <!-- Messages injected via JS -->
+        </div>
+        
+        <!-- Typing Indicator -->
+        <div id="typing-indicator" class="hidden max-w-3xl mx-auto w-full mb-8 pl-2">
+            <div class="flex items-end gap-3">
+                <div class="bg-albania-bubbleBot border border-white/5 px-4 py-3 rounded-2xl rounded-bl-none flex items-center gap-1.5 shadow-lg">
+                    <span class="w-1.5 h-1.5 rounded-full typing-dot"></span>
+                    <span class="w-1.5 h-1.5 rounded-full typing-dot"></span>
+                    <span class="w-1.5 h-1.5 rounded-full typing-dot"></span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Input Area -->
+    <footer class="relative z-20 p-4 bg-albania-charcoal/90 backdrop-blur-xl border-t border-white/5">
+        <div class="max-w-3xl mx-auto">
+            <form id="chat-form" class="relative flex items-center gap-3">
+                <input 
+                    id="user-input" 
+                    type="text" 
+                    placeholder="Shkruaj përgjigjen tënde..." 
+                    class="w-full bg-[#0F0F0F] text-gray-100 placeholder-gray-500 rounded-xl py-4 pl-5 pr-14 border border-white/10 focus:outline-none focus:ring-1 focus:ring-albania-red focus:border-albania-red transition-all shadow-inner font-light"
+                    autocomplete="off"
+                >
+                <button 
+                    type="submit" 
+                    id="send-btn"
+                    class="absolute right-2.5 p-2 bg-albania-red text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_4px_14px_0_rgba(228,30,32,0.39)] hover:shadow-[0_6px_20px_rgba(228,30,32,0.23)] hover:-translate-y-0.5"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                </button>
+            </form>
+            <div class="text-center mt-3 flex justify-center items-center gap-2 opacity-30 hover:opacity-100 transition-opacity duration-300">
+                <p class="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">
+                    Shkolla "Lasgush Poradeci"
+                </p>
+                <span class="text-red-500">•</span>
+                <p class="text-[10px] text-gray-400 font-serif italic">2024</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Constants ---
+        const INITIAL_MESSAGE = "Bashkë mund të komunikojmë vetëm në gjuhën shqipe. A dëshiron të vazhdojmë?";
+        
+        const TRIVIA_FACTS = [
+            "Shqipja formon një degë më vete në familjen e gjuhëve indo-evropiane dhe nuk ka asnjë gjuhë motër.",
+            "Libri i parë në gjuhën shqipe është 'Meshari' i Gjon Buzukut, i botuar në vitin 1555.",
+            "Himni i Flamurit u shkrua nga poeti Asdreni (Aleksandër Stavre Drenova).",
+            "Nënë Tereza, nobelistja e famshme e paqes, ishte me origjinë shqiptare.",
+            "Gjuha shqipe flitet nga rreth 7.5 milionë njerëz në mbarë botën."
+        ];
+
+        const SYNTAX_RULES = [
+            {
+                keywords: ["kryefjala", "kryefjal"],
+                response: `<strong class="text-red-400">Kryefjala</strong> është gjymtyra kryesore e fjalisë që shënon frymorin a sendin i cili kryen veprimin.<br><br>
+                <em class="opacity-80">Shembull:</em><br>
+                • <strong>Shiu</strong> vazhdonte të binte lehtë.`
+            },
+            {
+                keywords: ["kallëzuesi", "kallezuesi", "kallëzues", "kallezues"],
+                response: `<strong class="text-red-400">Kallëzuesi</strong> është gjymtyra kryesore që tregon veprimin apo gjendjen e kryefjalës.<br><br>
+                <em class="opacity-80">Llojet:</em><br>
+                1. Foljor (punoj, lexoj)<br>
+                2. Emëror (jam mësues, është i mirë)`
+            },
+            {
+                keywords: ["kundrinori", "kundrinor"],
+                response: `<strong class="text-red-400">Kundrinori</strong> është gjymtyrë e dytë që tregon objektin mbi të cilin bie veprimi i foljes.`
+            },
+            {
+                keywords: ["përcaktori", "percaktori"],
+                response: `<strong class="text-red-400">Përcaktori</strong> shërben për të përcaktuar cilësinë e një emri në fjali.`
+            }
+        ];
+
+        // --- State Management ---
+        let step = 0; // 0: Intro, 1: Quiz, 2: Empathy Wait, 3: Finished/Restarting
+        let isTyping = false;
+        let inactivityTimer;
+
+        // --- DOM Elements ---
+        const messagesList = document.getElementById('messages-list');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatContainer = document.getElementById('chat-container');
+
+        // --- Init ---
+        window.onload = () => {
+            // Initial delay for realism
+            setTimeout(() => {
+                appendMessage('bot', INITIAL_MESSAGE);
+            }, 500);
+            userInput.focus();
+        };
+
+        // --- Event Listeners ---
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = userInput.value.trim();
+            if (!text || isTyping || step === 3) return;
+
+            // User Message
+            appendMessage('user', text);
+            userInput.value = '';
+            
+            // Bot Response Flow
+            processBotResponse(text);
+        });
+
+        // --- Core Logic ---
+        async function processBotResponse(userText) {
+            showTyping(true);
+            
+            // Artificial delay based on text length
+            const delay = 1000 + Math.random() * 800;
+            await new Promise(r => setTimeout(r, delay));
+
+            const lowerText = userText.toLowerCase();
+            let response = "";
+
+            // Logic Tree
+            if (step === 0) {
+                // STARTING POINT
+                if (lowerText === 'po' || lowerText.includes('po ') || lowerText.includes(' po')) {
+                    step = 1; // Go to Quiz
+                    response = "Më vjen mirë! Po vazhdojmë me pyetjet. Mund të më pyesësh për <strong>Kryefjalën</strong>, <strong>Kallëzuesin</strong>, etj.";
+                } else {
+                    // "Jo" or anything else -> Empathy Path
+                    step = 2; // Go to Empathy
+                    response = "E kuptoj. Para se të ndahemi, më thuaj një gjë të bukur që të ka ndodhur sot? 🌹";
+                }
+            } 
+            else if (step === 1) {
+                // QUIZ MODE
+                // Check if user wants to stop/finish
+                if (lowerText.includes('mjaft') || lowerText.includes('stop') || lowerText.includes('jo') || lowerText.includes('faleminderit')) {
+                    step = 2;
+                    response = "Kënaqësi të bisedonim për gjuhën! Për ta mbyllur bukur, më thuaj diçka të mirë që të ndodhi sot? ✨";
+                } else {
+                    // Check syntax keywords
+                    const matched = SYNTAX_RULES.find(r => r.keywords.some(k => lowerText.includes(k)));
+                    if (matched) {
+                        response = matched.response;
+                    } else {
+                        response = "Mund të pyesësh për <strong>kryefjalën</strong>, <strong>kallëzuesin</strong>, <strong>kundrinorin</strong> ose <strong>përcaktorin</strong>. Ose thuaj 'mjaft' për të ndaluar.";
+                    }
+                }
+            } 
+            else if (step === 2) {
+                // EMPATHY RESPONSE & TRIVIA
+                step = 3; // Finished state
+                const fact = TRIVIA_FACTS[Math.floor(Math.random() * TRIVIA_FACTS.length)];
+                
+                response = `Sa gjë e bukur! Faleminderit që e ndave me mua. ❤️<br><br>
+                            <div class="mt-4 p-3 bg-red-900/30 border-l-2 border-red-500 rounded-r text-sm">
+                                <strong class="text-red-400 block mb-1">A e dinit se?</strong>
+                                ${fact}
+                            </div>`;
+                
+                // Trigger Auto Restart Logic
+                setTimeout(initiateAutoRestart, 1000);
+            }
+
+            showTyping(false);
+            appendMessage('bot', response);
+        }
+
+        // --- Restart Logic ---
+        function initiateAutoRestart() {
+            // Disable input during restart phase
+            userInput.disabled = true;
+            userInput.placeholder = "Biseda po rifillon...";
+            document.getElementById('send-btn').classList.add('opacity-50');
+
+            // Wait for user to read (7 seconds), then restart
+            setTimeout(() => {
+                // Fade out effect
+                messagesList.style.opacity = '0';
+                messagesList.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(() => {
+                    // Reset State
+                    messagesList.innerHTML = '';
+                    messagesList.style.opacity = '1';
+                    step = 0;
+                    userInput.disabled = false;
+                    userInput.placeholder = "Shkruaj përgjigjen tënde...";
+                    userInput.value = '';
+                    document.getElementById('send-btn').classList.remove('opacity-50');
+                    
+                    // Send First Message again
+                    appendMessage('bot', INITIAL_MESSAGE);
+                }, 500);
+            }, 7000); // 7 seconds delay
+        }
+
+        // --- UI Helper Functions ---
+        function appendMessage(sender, htmlText) {
+            const isBot = sender === 'bot';
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex w-full mb-6 animate-slide-up ${isBot ? 'justify-start' : 'justify-end'}`;
+
+            const inner = document.createElement('div');
+            inner.className = `flex max-w-[85%] md:max-w-[70%] ${isBot ? 'flex-row' : 'flex-row-reverse'} items-end gap-3`;
+
+            // Avatar
+            const avatar = document.createElement('div');
+            avatar.className = `flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-lg ${isBot ? 'bg-albania-charcoal border border-white/10 text-red-500' : 'bg-albania-red text-white'}`;
+            avatar.innerHTML = isBot 
+                ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>'
+                : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+
+            // Bubble
+            const bubble = document.createElement('div');
+            bubble.className = `px-5 py-3.5 rounded-2xl text-[15px] leading-relaxed shadow-md transition-all ${
+                isBot 
+                ? 'bg-albania-bubbleBot text-gray-100 rounded-bl-none border border-white/5' 
+                : 'bg-albania-red text-white rounded-br-none shadow-red-900/20'
+            }`;
+            
+            const content = document.createElement('div');
+            content.innerHTML = htmlText;
+
+            bubble.appendChild(content);
+            inner.appendChild(avatar);
+            inner.appendChild(bubble);
+            wrapper.appendChild(inner);
+
+            messagesList.appendChild(wrapper);
+            scrollToBottom();
+        }
+
+        function showTyping(show) {
+            isTyping = show;
+            if (show) {
+                typingIndicator.classList.remove('hidden');
+                scrollToBottom();
+            } else {
+                typingIndicator.classList.add('hidden');
+            }
+        }
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
