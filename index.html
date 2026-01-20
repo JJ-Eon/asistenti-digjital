@@ -176,12 +176,12 @@
         const INITIAL_MESSAGE_TEXT = "Bashkë mund të komunikojmë vetëm në gjuhën shqipe. A dëshiron të vazhdojmë?";
         
         const MOTIVATIONAL_QUOTES = [
-            "“Të gjitha ëndrrat tona mund të bëhen realitet nëse kemi guximin t'i ndjekim ato.”",
-            "“E vetmja mënyrë për të bërë punë të madhe është ta duash atë që bën.”",
-            "“Nuk ka rëndësi sa ngadalë ecën, për sa kohë që nuk ndalon.”",
-            "“Bëhu ndryshimi që dëshiron të shohësh në botë.”",
-            "“Çdo ditë është një mundësi e re për të qenë më i mirë se dje.”",
-            "“Dielli lind sërish pas çdo stuhie.”"
+            "Të gjitha ëndrrat tona mund të bëhen realitet nëse kemi guximin t'i ndjekim ato.",
+            "E vetmja mënyrë për të bërë punë të madhe është ta duash atë që bën.",
+            "Nuk ka rëndësi sa ngadalë ecën, për sa kohë që nuk ndalon.",
+            "Bëhu ndryshimi që dëshiron të shohësh në botë.",
+            "Çdo ditë është një mundësi e re për të qenë më i mirë se dje.",
+            "Dielli lind sërish pas çdo stuhie."
         ];
 
         // Structured Data for Interactive Flow
@@ -336,7 +336,19 @@
 
             const lowerText = userText.toLowerCase();
             const isPositive = lowerText === 'po' || lowerText.includes('po ') || lowerText.includes(' po') || lowerText.includes('sigurisht');
-            const isRefusal = lowerText === 'jo' || lowerText.includes('jo ') || lowerText.includes(' jo') || lowerText.includes('s\'dua') || lowerText.includes('nuk dua');
+            
+            // Enhanced Refusal Logic
+            const isRefusal = lowerText === 'jo' || 
+                            lowerText.includes('jo ') || 
+                            lowerText.includes(' jo') || 
+                            lowerText.includes('s\'dua') || 
+                            lowerText.includes('nuk dua') || 
+                            lowerText.includes('nuk kam deshire') ||
+                            lowerText.includes('nuk kam dëshirë') ||
+                            lowerText.includes('nuk dua te flas') ||
+                            lowerText.includes('nuk dua të flas') ||
+                            lowerText.includes('nuk dua te tregoj') ||
+                            lowerText.includes('nuk dua të tregoj');
 
             let response = "";
 
