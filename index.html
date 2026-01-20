@@ -13,8 +13,8 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         albania: {
-                            red: '#E41E20', // National Flag Red
-                            dark: '#0a0a0a', // Deep Black
+                            red: '#E41E20', 
+                            dark: '#0a0a0a', 
                             charcoal: '#1a1a1a',
                             bubbleBot: '#262626',
                         }
@@ -38,13 +38,13 @@
             background-color: #050505; 
             color: #f5f5f5;
         }
-        /* Custom Scrollbar */
+        
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #E41E20; }
         
-        /* Typing Animation */
+        
         .typing-dot {
             animation: bounce 1.4s infinite ease-in-out both;
             background-color: #E41E20;
@@ -56,7 +56,7 @@
             40% { transform: scale(1); opacity: 1; }
         }
 
-        /* Subtle Pattern */
+        
         .bg-pattern {
             background-image: radial-gradient(#E41E20 1px, transparent 1px);
             background-size: 30px 30px;
@@ -67,16 +67,16 @@
 </head>
 <body class="h-screen flex flex-col overflow-hidden bg-albania-dark relative">
 
-    <!-- Decorative Background -->
+    
     <div class="absolute inset-0 bg-pattern pointer-events-none"></div>
     <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-red-900/20 rounded-full blur-[120px] pointer-events-none"></div>
     <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-red-900/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-    <!-- Header -->
+    
     <header class="relative z-20 flex items-center justify-between px-4 sm:px-6 py-4 bg-albania-charcoal/80 backdrop-blur-xl border-b border-white/5 shadow-md">
         <div class="flex items-center gap-4">
             <div class="bg-albania-red p-2.5 rounded-lg shadow-[0_0_15px_rgba(228,30,32,0.4)] flex items-center justify-center">
-                <!-- Eagle-like Icon representation -->
+                
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M16 8a4 4 0 0 0-3.32-1.78l-1.38-2.74a1 1 0 0 0-1.6 0L8.32 6.22A4 4 0 0 0 5 10c0 2.21 1.79 4 4 4v6l3-3 3 3v-6a4 4 0 0 0 4-4Z"/></svg>
             </div>
             <div>
@@ -97,13 +97,12 @@
         </div>
     </header>
 
-    <!-- Chat Area -->
     <main id="chat-container" class="relative z-10 flex-1 overflow-y-auto px-4 sm:px-6 py-6 scroll-smooth">
         <div id="messages-list" class="max-w-3xl mx-auto flex flex-col justify-end min-h-0 pb-4">
-            <!-- Messages injected via JS -->
+            
         </div>
         
-        <!-- Typing Indicator -->
+        
         <div id="typing-indicator" class="hidden max-w-3xl mx-auto w-full mb-8 pl-2">
             <div class="flex items-end gap-3">
                 <div class="bg-albania-bubbleBot border border-white/5 px-4 py-3 rounded-2xl rounded-bl-none flex items-center gap-1.5 shadow-lg">
@@ -115,7 +114,7 @@
         </div>
     </main>
 
-    <!-- Input Area -->
+    
     <footer class="relative z-20 p-4 bg-albania-charcoal/90 backdrop-blur-xl border-t border-white/5">
         <div class="max-w-3xl mx-auto">
             <form id="chat-form" class="relative flex items-center gap-3">
@@ -144,9 +143,9 @@
         </div>
     </footer>
 
-    <!-- Glossary Modal -->
+    
     <div id="glossary-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <!-- Background backdrop -->
+      
         <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity opacity-0" id="glossary-backdrop"></div>
 
         <div class="fixed inset-0 z-10 overflow-y-auto">
@@ -163,7 +162,7 @@
                     </div>
                     <div class="px-4 py-5 sm:p-6 max-h-[60vh] overflow-y-auto custom-scroll">
                         <div id="glossary-content" class="space-y-4">
-                            <!-- Terms will be injected here -->
+                          
                         </div>
                     </div>
                 </div>
@@ -172,7 +171,7 @@
     </div>
 
     <script>
-        // --- Constants ---
+        
         const INITIAL_MESSAGE_TEXT = "Bashkë mund të komunikojmë vetëm në gjuhën shqipe. A dëshiron të vazhdojmë?";
         
         const MOTIVATIONAL_QUOTES = [
@@ -184,7 +183,7 @@
             "Dielli lind sërish pas çdo stuhie."
         ];
 
-        // Structured Data for Interactive Flow
+        
         const SYNTAX_DATA = {
             kryefjala: {
                 keywords: ["kryefjala", "kryefjal"],
@@ -228,27 +227,20 @@
             { term: "Mbiemri", def: "Pjesë e ligjëratës që tregon një cilësi të emrit (psh: <em>i bukur, e lartë</em>)." }
         ];
 
-        // --- State Management ---
-        // 0: Initial Question
-        // 1: Intermediate Question ("A deshiron te vazhdojme me pyetjet?")
-        // 2: Ask for something beautiful ("Me thuaj nje gje te bukur") - from Step 1 refusal
-        // 3: Quiz Mode
-        // 4: Finished/Restarting
-        // 5: Refusal Path (User said NO to initial question) -> "Dëshiron të ndash..."
-        // 6: Listening Mode (User said YES to "Dëshiron të ndash...")
+   
         let step = 0; 
         let activeTopic = null;
         let subContext = null; 
         let isTyping = false;
 
-        // --- DOM Elements ---
+        
         const messagesList = document.getElementById('messages-list');
         const typingIndicator = document.getElementById('typing-indicator');
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
         const chatContainer = document.getElementById('chat-container');
 
-        // Modal Elements
+        
         const glossaryBtn = document.getElementById('glossary-btn');
         const glossaryModal = document.getElementById('glossary-modal');
         const glossaryBackdrop = document.getElementById('glossary-backdrop');
@@ -256,7 +248,7 @@
         const closeGlossaryBtn = document.getElementById('close-glossary');
         const glossaryContent = document.getElementById('glossary-content');
 
-        // --- Logic: Greetings ---
+       
         function getGreeting() {
             const h = new Date().getHours();
             if (h >= 5 && h < 12) return "Mirëmëngjes";
@@ -268,33 +260,32 @@
             return `<strong class="text-red-400 text-lg">${getGreeting()}!</strong><br>${INITIAL_MESSAGE_TEXT}`;
         }
 
-        // --- Init ---
         window.onload = () => {
-            // Populate Glossary
+            
             renderGlossary();
 
-            // Initial delay for realism
+            
             setTimeout(() => {
                 appendMessage('bot', getFullIntro());
             }, 500);
             userInput.focus();
         };
 
-        // --- Event Listeners ---
+        
         chatForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const text = userInput.value.trim();
             if (!text || isTyping || step === 4) return;
 
-            // User Message
+            
             appendMessage('user', text);
             userInput.value = '';
             
-            // Bot Response Flow
+            
             processBotResponse(text);
         });
 
-        // Glossary Listeners
+      
         glossaryBtn.addEventListener('click', openGlossary);
         closeGlossaryBtn.addEventListener('click', closeGlossary);
         glossaryBackdrop.addEventListener('click', closeGlossary);
@@ -326,18 +317,18 @@
             `).join('');
         }
 
-        // --- Core Logic ---
+        
         async function processBotResponse(userText) {
             showTyping(true);
             
-            // Artificial delay based on text length
+            
             const delay = 1000 + Math.random() * 800;
             await new Promise(r => setTimeout(r, delay));
 
             const lowerText = userText.toLowerCase();
             const isPositive = lowerText === 'po' || lowerText.includes('po ') || lowerText.includes(' po') || lowerText.includes('sigurisht');
             
-            // Enhanced Refusal Logic
+            
             const isRefusal = lowerText === 'jo' || 
                             lowerText.includes('jo ') || 
                             lowerText.includes(' jo') || 
@@ -352,27 +343,27 @@
 
             let response = "";
 
-            // Logic Tree
+            
             if (step === 0) {
-                // Initial Question: "A dëshiron të vazhdojmë?"
+               
                 if (isPositive) {
-                    // Go to Intermediate Question
+                    
                     step = 1; 
                     response = "Më vjen mirë. A dëshiron të vazhdojmë me pyetjet?";
                 } else {
-                    // "Jo" -> New Refusal Logic
+                    
                     step = 5; 
                     response = "E kuptoj. Dëshiron të ndash me mua një gjë të bukur që të ka ndodhur sot?";
                 }
             }
             else if (step === 5) {
-                // User replying to "Deshiron te ndash me mua...?"
+                
                 if (isPositive) {
                     step = 6;
                     response = "Po të dëgjoj. Të lutem më trego. 👂";
                 } else {
-                    // Refusal 2
-                    step = 4; // End
+                    
+                    step = 4; 
                     const quote = MOTIVATIONAL_QUOTES[Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)];
                     response = `E kuptoj heshtjen tënde. Ndonjëherë fjalët nuk janë të nevojshme.<br><br>
                                 <em class="block mb-2">"${quote}"</em><br>
@@ -381,8 +372,8 @@
                 }
             }
             else if (step === 6) {
-                // User is telling the story
-                step = 4; // End
+               
+                step = 4; 
                 const quote = MOTIVATIONAL_QUOTES[Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)];
                 
                 response = `Sa gjë e bukur! Më vjen mirë që e ndave këtë moment me mua. Është vërtet frymëzuese. 🤍<br><br>
@@ -391,21 +382,21 @@
                 setTimeout(initiateAutoRestart, 2500);
             }
             else if (step === 1) {
-                // Intermediate: "A dëshiron të vazhdojmë me pyetjet?"
+                
                 if (isPositive) {
-                    // Go to Quiz Logic
+                    
                     step = 3; 
                     response = "Shkëlqyeshëm! Mund të më pyesësh rreth <strong>sintaksës së gjuhës shqipe</strong>.";
                 } else {
-                    // "Jo" -> Old Empathy Path
+                    
                     step = 2; 
                     response = "Mirë. Atëherë më thuaj një gjë të bukur që të ka ndodhur sot?";
                 }
             }
             else if (step === 3) {
-                // QUIZ MODE
                 
-                // Check stop words
+                
+                
                 if (lowerText.includes('mjaft') || lowerText.includes('stop') || lowerText.includes('jo') || lowerText.includes('faleminderit')) {
                     step = 2;
                     activeTopic = null;
@@ -413,7 +404,7 @@
                     response = "Kënaqësi të bisedonim për gjuhën! Atëherë më thuaj një gjë të bukur që të ka ndodhur sot?";
                 } 
                 else {
-                    // 1. Check for New Topic (High Priority)
+                    
                     let newTopicKey = null;
                     for (const key in SYNTAX_DATA) {
                         if (SYNTAX_DATA[key].keywords.some(k => lowerText.includes(k))) {
@@ -424,31 +415,31 @@
 
                     if (newTopicKey) {
                         activeTopic = newTopicKey;
-                        subContext = null; // Reset context for new topic
+                        subContext = null; 
                         const data = SYNTAX_DATA[newTopicKey];
                         response = `${data.def}<br><br><span class="text-red-300 italic">${data.question}</span>`;
                     } 
                     else if (activeTopic) {
-                        // Handle interactions within the active topic
+                        
                         const data = SYNTAX_DATA[activeTopic];
                         const isAffirmation = lowerText === 'po' || lowerText.includes('po ') || lowerText.includes(' po') || lowerText.includes('sigurisht') || lowerText.includes('dua');
                         const isNegation = lowerText === 'jo' || lowerText.includes('jo ') || lowerText.includes(' jo') || lowerText.includes('nuk') || lowerText.includes('tjeter');
 
                         if (isNegation) {
-                            // Exit current topic
+                           
                             activeTopic = null;
                             subContext = null;
                             response = "Në rregull. Mund të vazhdojmë me elemente të tjera të sintaksës (Kallëzuesi, Përcaktori, Kundrinori). Për cilën dëshiron të dish më shumë?";
                         }
                         else if (lowerText.includes('lloj') || lowerText.includes('klasifikim')) {
-                            // User asks for Types
+                           
                             response = data.llojet ? data.llojet : "Për këtë gjymtyrë nuk kemi klasifikim llojesh.";
                             
-                            // Check for follow-up potential
+                            
                             if (data.shprehet && subContext !== 'shprehet') {
                                 response += "<br><br><span class='text-red-300 italic'>A dëshiron të dish gjithashtu se me çfarë shprehet?</span>";
-                                subContext = 'llojet'; // Mark that we just discussed types
-                                // Active topic remains
+                                subContext = 'llojet'; 
+                                
                             } else {
                                 activeTopic = null;
                                 subContext = null;
@@ -456,13 +447,13 @@
                             }
                         } 
                         else if (lowerText.includes('shpreh') || lowerText.includes('formo') || lowerText.includes('behet')) {
-                            // User asks for Expression
+                            
                             response = data.shprehet ? data.shprehet : "Më fal, nuk kam informacion specifik për shprehjen e saj.";
 
-                            // Check for follow-up potential
+                            
                             if (data.llojet && subContext !== 'llojet') {
                                 response += "<br><br><span class='text-red-300 italic'>A dëshiron të dish gjithashtu llojet?</span>";
-                                subContext = 'shprehet'; // Mark that we just discussed expression
+                                subContext = 'shprehet'; 
                             } else {
                                 activeTopic = null;
                                 subContext = null;
@@ -470,10 +461,10 @@
                             }
                         }
                         else if (isAffirmation) {
-                            // User says "Po" to the previous prompt
+                            
                             if (subContext === 'llojet' && data.shprehet) {
                                 response = data.shprehet;
-                                activeTopic = null; // Finished both
+                                activeTopic = null; 
                                 subContext = null;
                                 response += "<br><br>Dëshiron të pyesësh për ndonjë gjymtyrë tjetër?";
                             }
@@ -484,7 +475,7 @@
                                 response += "<br><br>Dëshiron të pyesësh për ndonjë gjymtyrë tjetër?";
                             }
                             else {
-                                // Fallback general affirmation (show everything or whatever is left)
+                                
                                 if (data.llojet && data.shprehet) {
                                     response = data.llojet + "<br><br>" + data.shprehet;
                                 } else if (data.llojet) {
@@ -498,11 +489,11 @@
                             }
                         }
                         else {
-                            // Input didn't match keywords inside active topic
+                            
                             response = "Më fal, nuk të kuptova qartë. A dëshiron të dish <strong>llojet</strong>, <strong>me çfarë shprehet</strong>, apo të flasim për një gjymtyrë tjetër?";
                         }
                     } else {
-                        // No active topic and no new topic found
+                        
                         response = `Nuk të kuptova qartë. Mund të pyesësh për:
                                     <span class="text-red-400">Kryefjalën</span>, 
                                     <span class="text-red-400">Kallëzuesin</span>, 
@@ -512,8 +503,8 @@
                 }
             } 
             else if (step === 2) {
-                // EMPATHY RESPONSE (Input to "Tell me something beautiful" from Step 1)
-                step = 4; // Finished state
+              
+                step = 4; 
                 const quote = MOTIVATIONAL_QUOTES[Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)];
                 
                 if (isRefusal) {
@@ -533,7 +524,7 @@
             appendMessage('bot', response);
         }
 
-        // --- Restart Logic ---
+        
         function initiateAutoRestart() {
             userInput.disabled = true;
             userInput.placeholder = "Biseda po rifillon...";
@@ -559,7 +550,7 @@
             }, 7000);
         }
 
-        // --- UI Helper Functions ---
+       
         function appendMessage(sender, htmlText) {
             const isBot = sender === 'bot';
             
